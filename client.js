@@ -12,11 +12,12 @@ conn.onopen = function () {
 //when we got a message from a signaling server 
 conn.onmessage = function (msg) { 
    console.log("Got message", msg.data);
-	
+   
    var data = JSON.parse(msg.data); 
 	
    switch(data.type) { 
       case "login": 
+         //  console.log("LOGIN");
          handleLogin(data.success); 
          break; 
       //when somebody wants to call us 
@@ -44,6 +45,7 @@ conn.onerror = function (err) {
   
 //alias for sending JSON encoded messages 
 function send(message) { 
+   console.log(message)
    //attach the other peer username to our messages 
    if (connectedUser) { 
       message.name = connectedUser; 
@@ -77,7 +79,8 @@ callPage.style.display = "none";
 // Login when the user clicks the button 
 loginBtn.addEventListener("click", function (event) { 
    name = usernameInput.value;
-	
+   // console.log("LOGIN");
+
    if (name.length > 0) { 
       send({ 
          type: "login", 
@@ -88,57 +91,105 @@ loginBtn.addEventListener("click", function (event) {
 });
   
 function handleLogin(success) { 
+
+   console.log("BLA BLA BLA ");
+
    if (success === false) { 
       alert("Ooops...try a different username"); 
    } else { 
       loginPage.style.display = "none"; 
       callPage.style.display = "block";
 		
+      const constraints = {
+               'video': true,
+               'audio': false
+           }
+      navigator.mediaDevices.getUserMedia(constraints)
+         .then(stream => {
+               console.log('Got MediaStream:', stream);
+               localVideo.srcObject = stream
+               var configuration = { 
+                      "iceServers": [{ "url": "stun:stun2.1.google.com:19302" }]
+                }; 
+
+                yourConn = new webkitRTCPeerConnection(configuration); 
+			
+               // setup stream listening 
+               yourConn.addStream(stream); 
+               
+               //when a remote user adds stream to the peer connection, we display it 
+               yourConn.onaddstream = function (e) { 
+                  remoteVideo.src = window.URL.createObjectURL(e.stream); 
+               };
+               
+               // Setup ice handling 
+               yourConn.onicecandidate = function (event) { 
+                  if (event.candidate) { 
+                     send({ 
+                        type: "candidate", 
+                        candidate: event.candidate 
+                     }); 
+                  } 
+               };  
+                      
+
+         })
+         .catch(error => {
+               console.error('Error accessing media devices.', error);
+         });
+
+         
+      
+
       //********************** 
       //Starting a peer connection 
       //********************** 
 		
       //getting local video stream 
-      navigator.webkitGetUserMedia({ video: true, audio: true }, function (myStream) { 
-         stream = myStream; 
-			
-         //displaying local video stream on the page 
+   //    navigator.webkitGetUserMedia({ video: true, audio: true }, function (myStream) { 
+   //      stream = myStream; 
+
+      
+      
+      
+   //    //displaying local video stream on the page 
           
       
-         localVideo.src = window.URL.createObjectURL = (stream) => {
-            args.video.srcObject = stream;
-            return stream;
-         };
+   //       localVideo.src = window.URL.createObjectURL = (stream) => {
+   //          args.video.srcObject = stream;
+   //          return stream;
+   //       };
+         
 
 
-         //using Google public stun server 
-         var configuration = { 
-            "iceServers": [{ "url": "stun:stun2.1.google.com:19302" }]
-         }; 
+   //       //using Google public stun server 
+   //       var configuration = { 
+   //          "iceServers": [{ "url": "stun:stun2.1.google.com:19302" }]
+   //       }; 
 			
-         yourConn = new webkitRTCPeerConnection(configuration); 
+   //       yourConn = new webkitRTCPeerConnection(configuration); 
 			
-         // setup stream listening 
-         yourConn.addStream(stream); 
+   //       // setup stream listening 
+   //       yourConn.addStream(stream); 
 			
-         //when a remote user adds stream to the peer connection, we display it 
-         yourConn.onaddstream = function (e) { 
-            remoteVideo.src = window.URL.createObjectURL(e.stream); 
-         };
+   //       //when a remote user adds stream to the peer connection, we display it 
+   //       yourConn.onaddstream = function (e) { 
+   //          remoteVideo.src = window.URL.createObjectURL(e.stream); 
+   //       };
 			
-         // Setup ice handling 
-         yourConn.onicecandidate = function (event) { 
-            if (event.candidate) { 
-               send({ 
-                  type: "candidate", 
-                  candidate: event.candidate 
-               }); 
-            } 
-         };  
+   //       // Setup ice handling 
+   //       yourConn.onicecandidate = function (event) { 
+   //          if (event.candidate) { 
+   //             send({ 
+   //                type: "candidate", 
+   //                candidate: event.candidate 
+   //             }); 
+   //          } 
+   //       };  
 			
-      }, function (error) { 
-         console.log(error); 
-      }); 
+   //    }, function (error) { 
+   //       console.log(error); 
+   //    }); 
 		
    } 
 };
