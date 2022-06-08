@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Q-team</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+</head>
+<body>
+    <div class="container h-100">
+        <div class="d-flex justify-content-center h-100">
+            <div class="user_card_signUp">
+                <div class="d-flex justify-content-center">
+                    <div class="brand_logo_container">
+                        <img src="images/timLogo.jpg" class="brand_logo" alt="Q-team logo">
+                    </div>
+                </div>
+                    <div class="d-flex flex-column justify-content-center form-container pt-5 px-5 pb-4" id="login_div">
+                        <div class="input-group mt-5 mb-3">
+                            <div class="input-group-append">
+                                <span class="input-group-text"><i class="bi bi-envelope"></i></span>
+                            </div>
+                            <input type="text" name="email" placeholder="Email" id="email" class="form-control input_user"required>
+                        </div>
+                        <div class="input-group mb-3">
+                            <div class="input-group-append">
+                                <span class="input-group-text"><i class="bi bi-person-circle"></i></span>
+                            </div>
+                            <input type="text" name="Username" placeholder="Username" id="username" class="form-control input_pass"required>
+                        </div>
+                        <div class="input-group mb-3">
+                            <div class="input-group-append">
+                                <span class="input-group-text"><i class="bi bi-person-circle"></i></span>
+                            </div>
+                            <input type="text" name="First name" placeholder="First name" id="fname" class="form-control input_pass"required>
+                        </div>
+                        <div class="input-group mb-3">
+                            <div class="input-group-append">
+                                <span class="input-group-text"><i class="bi bi-person-circle"></i></span>
+                            </div>
+                            <input type="text" name="Last name" placeholder="Last name" id="lname" class="form-control input_pass"required>
+                        </div>
+                        <div class="input-group mb-3">
+                            <div class="input-group-append">
+                                <span class="input-group-text"><i class="bi bi-key"></i></span>
+                            </div>
+                            <input type="password" name="password" placeholder="Password" id="password" class="form-control input_pass"required>
+                        </div>
+                        <div class="input-group mb-3">
+                            <div class="input-group-append">
+                                <span class="input-group-text"><i class="bi bi-key"></i></span>
+                            </div>
+                            <input type="password" name="password" placeholder="Confirm password" id="repeatedpassword" class="form-control input_pass"required>
+                        </div>
+                        <!--<div class="form-group">
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" name="rememberMe" class="custom-control-input" id="customControlInline">
+                                <label for="customControlInline" class="custom-control-label">Remember me</label>
+                            </div>
+                        </div>-->
+                    </div>
+                        <div class="d-flex justify-content-center mt-1 login_container">
+                            <button type="button" name="login_button" id="signUp" class="btn login_btn">Sign up</button>
+                        </div>
+            
+                 <div class="mt-3 linked">
+                        <div class="d-flex justify-content-center links">
+                            Already have an account? <a href="index.html" class="ms-2"> Login </a>
+                        </div>
+                        <!--<div class="d-flex justify-content-center">
+                            <a href="#">Forgot your password?</a>
+                        </div>-->
+                 </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.8.1/firebase-app.js";
+    import {getDatabase, set, ref} from "https://www.gstatic.com/firebasejs/9.8.1/firebase-database.js";
+    import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.8.1/firebase-auth.js";
+  
+    const firebaseConfig = {
+      apiKey: "AIzaSyDWrQ1W5VzXHWyhdwuKanAa3v54ZZkTrXA",
+      authDomain: "web-project-dba45.firebaseapp.com",
+      databaseURL: "https://web-project-dba45-default-rtdb.firebaseio.com",
+      projectId: "web-project-dba45",
+      storageBucket: "web-project-dba45.appspot.com",
+      messagingSenderId: "51222755406",
+      appId: "1:51222755406:web:50a4f207390aee287b2b1f"
+    };
+  
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const database=getDatabase(app);
+    const auth = getAuth();
+    var proceed;
+
+    signUp.addEventListener('click',(e)=>{
+        var email=document.getElementById('email').value;
+        var username=document.getElementById('username').value;
+        var firstname=document.getElementById('fname').value;
+        var lastname=document.getElementById('lname').value;
+        var password=document.getElementById('password').value; 
+        var repeatedpassword=document.getElementById('repeatedpassword').value;
+
+        if(password==repeatedpassword){
+            createUserWithEmailAndPassword(auth, email, password)
+            .then((userCredential) => {
+                // Signed in 
+                const user = userCredential.user;
+                set(ref(database, 'users/' + user.uid),{
+                    email:email,
+                    username:username,
+                    firstname:firstname,
+                    lastname:lastname
+                })
+                proceed = confirm("Are you sure you want to proceed?");
+           
+            })
+            .catch((error) => {
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                
+                alert(errorMessage);
+            });
+        }else{
+            alert('password is not the same');
+            document.getElementById('password').value=""; 
+            document.getElementById('repeatedpassword').value="";
+        }
+        if (proceed) {
+            window.open("index.html","_self");
+        }
+    });
+
+  </script>
+</html>

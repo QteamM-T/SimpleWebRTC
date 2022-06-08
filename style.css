@@ -1,0 +1,92 @@
+body,html{
+    margin:0;
+    padding: 0;
+    height: 100%;
+    background:steelblue;
+}
+.title{
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    color:white;
+}
+.user_card_login{
+    width: 400px;
+    height: 400px;    
+    margin: auto 0;
+    background: tan;
+    position: relative;
+    display:flex;
+    justify-content: center;
+    flex-direction: column;
+    padding: 10px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0,0, 0.2), 0 6px 20px 0 rgba(0, 0,0, 0.19);
+    -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0,0, 0.2), 0 6px 20px 0 rgba(0, 0,0, 0.19);
+    -moz-box-shadow: 0 4px 8px 0 rgba(0, 0,0, 0.2), 0 6px 20px 0 rgba(0, 0,0, 0.19);
+    border-radius: 5px;
+}
+.user_card_signUp{
+    width: 400px;
+    height: 550px;    
+    margin: auto 0;
+    background: tan;
+    position: relative;
+    display:flex;
+    justify-content: center;
+    flex-direction: column;
+    padding: 10px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0,0, 0.2), 0 6px 20px 0 rgba(0, 0,0, 0.19);
+    -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0,0, 0.2), 0 6px 20px 0 rgba(0, 0,0, 0.19);
+    -moz-box-shadow: 0 4px 8px 0 rgba(0, 0,0, 0.2), 0 6px 20px 0 rgba(0, 0,0, 0.19);
+    border-radius: 5px;
+}
+.brand_logo_container{
+    position: absolute;
+    height: 170px;
+    width: 170px;
+    top: -75px;
+    border-radius: 50%;
+    background:steelblue;
+    padding: 10px;
+    text-align: center;
+}
+
+.brand_logo{
+    height: 150px;
+    width: 150px;
+    border-radius: 50%;
+    border: 2px solid white;
+}
+.form_container{
+    margin-top: 20px;/**/
+}
+.login_btn{
+    width:60%;
+    background-color: white ;
+    transition-duration: 0.4s;
+}
+.login_btn:hover {
+    background-color: steelblue;
+    color: white;
+}
+.login_container{
+    padding: 0 10px;
+}
+.input-group-text{
+    background-color: steelblue;
+    color: white;
+    border: 0;
+    border-radius: 0.25rem 0 0 0.25rem;
+}
+.input_user,.input_pass{
+    height: 100%;
+}
+.custom-checkbox .custom-control-input:checked~.custom-control-label::before{
+    background-color: red!important;/**/
+}
+.linked a{
+    text-decoration: none;
+    
+}
+/*.login_btn:focus{
+    box-shadow: 2px !important;
+    outline: none!important;
+}*/

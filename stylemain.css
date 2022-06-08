@@ -1,0 +1,62 @@
+ html,body{
+    margin: 0;
+    padding: 0;
+    background: steelblue;
+} 
+.sidetable{
+    margin: 50px;
+    width: 15%;
+    background-color: steelblue;
+    float: left;
+}
+.gumb{
+    background-color: steelblue;
+}
+/* .login_btn{
+    transition-duration: 0.4s;
+}
+.login_btn:hover {
+    background-color: steelblue;
+    color: white;
+}
+.login_container{
+    padding: 0 10px;
+    background-color: black;
+} */
+video {
+    background: black;
+    border: 1px solid gray;
+}
+
+.call-page {
+    position: relative;
+    display: block;
+    margin: 0 auto;
+    width: 500px;
+    height: 500px;
+    background-color: steelblue;
+}
+
+
+#localVideo {
+    width: 150px;
+    height: 150px;
+    position: absolute;
+    top: 15px;
+    right: 15px;
+}
+
+#remoteVideo {
+    width: 500px;
+    height: 500px;
+}
+
+.hello-text{
+    text-align: center;
+    color: aliceblue;
+    font-family: 'Brush Script MT', cursive;
+    font-size: 60px;
+    
+}
+
+
